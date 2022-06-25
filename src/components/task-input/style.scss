@@ -1,0 +1,70 @@
+@import "styles/variables";
+
+
+.task-input-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0;
+
+  .input {
+    position: relative;
+    width: 90%;
+
+    &__label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: .3rem .8rem;
+      margin: calc(.5rem * 0.75 + 3px) calc(.5rem * .5);
+      white-space: nowrap;
+      transform: translate(0, 0);
+      transform-origin: 0 0;
+      background: $secondary;
+      transition: transform 120ms ease-in;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    &__field {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      border: 3px solid $dark;
+      padding: calc(.5rem * 1.5) .5rem;
+      color: $dark;
+      background: transparent;
+      border-radius: 4px;
+
+      &:focus,
+      &:not(:placeholder-shown) {
+        outline: none;
+        border-color: $primary;
+
+        & + .input__label {
+          transform: translate(.25rem, -65%) scale(.8);
+          color: $primary;
+        }
+      }
+    }
+  }
+
+
+  button {
+    width: 9%;
+    background: $primary;
+    border: none;
+    height: 100%;
+    padding: 15px 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 120ms ease-in;
+    font-weight: bold;
+
+    &:hover {
+      background: $dark-primary;
+      color: $white;
+    }
+
+  }
+}
