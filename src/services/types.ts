@@ -3,11 +3,6 @@ export interface IUpdateProps {
   text: string;
 }
 
-export interface IGetAllProps {
-  limit: number;
-  offset: number;
-}
-
 export interface IStatusProps {
   id: number;
   status: boolean;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IGetAllProps, IUpdateProps, IStatusProps } from "./types";
+import { IUpdateProps, IStatusProps } from "./types";
 
 // axios base url config
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -32,6 +32,29 @@ const Add = async (text: string) => {
   }
 };
 
-const functions = { Add };
+const GetAll = async () => {
+  try {
+    const result = await axios.get("todos");
+
+    // if http status ok
+    if (result.status === 200) {
+      return {
+        status: true,
+        data: result.data,
+        message: "Todos fetched successfully",
+      };
+    } else {
+      throw new Error("Something went wrong");
+    }
+  } catch (error) {
+    return {
+      status: false,
+      message: error.message,
+      data: null,
+    };
+  }
+};
+
+const functions = { Add, GetAll };
 
 export default functions;
