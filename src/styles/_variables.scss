@@ -1,6 +1,9 @@
 // colors
+$dark: #232323;
 $primary: #00bcd4;
-$secondary: #FCFDFD;
+$dark-primary: #0c8494;
+$secondary: #e7eeee;
+$white: #FFFFFF;
 
 
 // breakpoints
@@ -23,7 +26,7 @@ $desktop: 1440px;
 
 
 @mixin desktop() {
-  @media (min-width: $tablet) and (max-width: $desktop) {
+  @media (min-width: $desktop) {
     @content;
   }
 }
