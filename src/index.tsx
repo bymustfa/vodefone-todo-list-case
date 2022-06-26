@@ -1,14 +1,16 @@
-import React from "react";
+import React, { lazy, StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "styles/style.scss";
-import App from "./App";
+const App = lazy(() => import("./App"));
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Suspense fallback={<div> Loading... </div>}>
+    <StrictMode>
+      <App />
+    </StrictMode>
+  </Suspense>
 );

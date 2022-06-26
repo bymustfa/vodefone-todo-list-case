@@ -1,3 +1,4 @@
+@import "styles/variables";
 
 .label {
   display: block;
@@ -13,25 +14,34 @@
   display: block;
   width: 100%;
   height: 60px;
-  //overflow: hidden;
+
+  label {
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+      rect {
+        stroke-width: 2;
+      }
+    }
+
+  }
 
   span {
     position: absolute;
     left: 130px;
     top: 12px;
   }
- 
+
 }
 
-.checkbox:not(:last-child) {
-  border-bottom: 2px solid white;
-}
 
 .check {
   width: 50px;
   height: 50px;
   position: absolute;
   opacity: 0;
+
 
   &:checked {
     & + label span {
@@ -49,6 +59,5 @@
 
 .check:checked + label svg g path {
   stroke-dashoffset: 0;
-
 }
 

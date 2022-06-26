@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUpdateProps, IStatusProps } from "./types";
+import { ITodoItem } from "types/index";
 
 // axios base url config
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -22,6 +22,29 @@ const Add = async (text: string) => {
       } else {
         throw new Error("Something went wrong");
       }
+    }
+  } catch (error) {
+    return {
+      status: false,
+      message: error.message,
+      data: null,
+    };
+  }
+};
+
+const ChangeStatus = async (id: number, todoItem: ITodoItem) => {
+  try {
+    const result = await axios.put(`todos/${id}`, todoItem);
+
+    // if http status ok
+    if (result.status === 200) {
+      return {
+        status: true,
+        data: result.data,
+        message: "Todo status changed successfully",
+      };
+    } else {
+      throw new Error("Something went wrong");
     }
   } catch (error) {
     return {
@@ -55,6 +78,29 @@ const GetAll = async () => {
   }
 };
 
-const functions = { Add, GetAll };
+const Delete = async (id: number) => {
+  try {
+    const result = await axios.delete(`todos/${id}`);
+
+    // if http status ok
+    if (result.status === 200) {
+      return {
+        status: true,
+        data: result.data,
+        message: "Todo deleted successfully",
+      };
+    } else {
+      throw new Error("Something went wrong");
+    }
+  } catch (error) {
+    return {
+      status: false,
+      message: error.message,
+      data: null,
+    };
+  }
+};
+
+const functions = { Add, GetAll, ChangeStatus, Delete };
 
 export default functions;

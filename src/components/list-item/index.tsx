@@ -1,26 +1,32 @@
 import React, { FC } from "react";
 import Check from "components/check";
+import DeleteButton from "components/delete-button";
 import { ITodoItem } from "types/index";
 
 interface IListItemProps {
-  item: ITodoItem;
-  onStatusChange: (id: number, status: boolean) => void;
+  todoItem: ITodoItem;
+  onStatusChange: (status: boolean) => void;
   onDelete: (id: number) => void;
 }
 
-const ListItem: FC<IListItemProps> = ({ item, onStatusChange, onDelete }) => {
-  console.log("ListItem", item);
+const ListItem: FC<IListItemProps> = ({
+  todoItem,
+  onStatusChange,
+  onDelete,
+}) => {
   return (
     <li>
       <Check
-        checked={item.status}
-        text={item.text}
-        onChange={(checkStatus: boolean) => {
-          onStatusChange(item.id, checkStatus);
-        }}
+        checked={todoItem.status}
+        text={todoItem.text}
+        onChange={onStatusChange}
       />
 
-      <button>Delete</button>
+      <DeleteButton
+        onClick={() => {
+          onDelete(todoItem.id);
+        }}
+      />
     </li>
   );
 };

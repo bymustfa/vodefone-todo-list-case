@@ -3,10 +3,11 @@ import "./style.scss";
 import toast from "react-hot-toast";
 
 interface ITaskInputProps {
+  loading: boolean;
   onAdd: (text: string) => void;
 }
 
-const TaskInput: FC<ITaskInputProps> = ({ onAdd }) => {
+const TaskInput: FC<ITaskInputProps> = ({ loading = false, onAdd }) => {
   const [text, setText] = useState("");
 
   const handleAdd = () => {
@@ -22,6 +23,7 @@ const TaskInput: FC<ITaskInputProps> = ({ onAdd }) => {
     <div className="task-input-area">
       <label className="input">
         <input
+          disabled={loading}
           className="input__field"
           type="text"
           placeholder=" "
@@ -29,11 +31,18 @@ const TaskInput: FC<ITaskInputProps> = ({ onAdd }) => {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setText(e.target.value)
           }
+          onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+              handleAdd();
+            }
+          }}
         />
         <span className="input__label">Enter Task</span>
       </label>
 
-      <button onClick={handleAdd}>Add</button>
+      <button onClick={handleAdd}>
+        {loading ? <span className="loader" /> : "Add"}
+      </button>
     </div>
   );
 };

@@ -23,7 +23,6 @@
     "baseUrl": "src",
     "paths": {
       "components/*": ["components/*"],
-      "helpers/*": ["helpers/*"],
       "services/*": ["services/*"],
       "styles/*": ["styles/*"],
       "types/*": ["types/*"],

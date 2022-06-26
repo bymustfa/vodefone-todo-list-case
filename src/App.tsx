@@ -1,19 +1,22 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, lazy, useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import { ITodoItem } from "types";
 import TodoService from "services";
 
-import Check from "components/check";
-import ListItem from "components/list-item";
-import TaskInput from "components/task-input";
+const ListItem = lazy(() => import("components/list-item"));
+const TaskInput = lazy(() => import("components/task-input"));
 
 const App: FC = () => {
   const [todoItems, setTodoItems] = useState<ITodoItem[]>([]);
+  const [countText, setCountText] = useState("( 0 / 0 )");
+
+  const [loader, setLoader] = useState(false);
 
   // All todos fetched from server
   const getAllTodos = async () => {
     try {
+      setLoader(true);
       const todos = await TodoService.GetAll();
 
       if (todos.status) {
@@ -25,8 +28,9 @@ const App: FC = () => {
       } else {
         setTodoItems([]);
       }
+      setLoader(false);
     } catch (err) {
-      console.log(err);
+      setLoader(false);
     }
   };
 
@@ -34,12 +38,48 @@ const App: FC = () => {
     try {
       text = text.trim();
       const todo = await TodoService.Add(text);
-      console.log(todo);
-      toast.success("Successfully toasted!");
-      getAllTodos();
+      if (todo.status) {
+        toast.success(todo.message);
+        await getAllTodos();
+      } else {
+        toast.error(todo.message);
+      }
     } catch (err) {
-      console.log(err);
+      toast.error(err.message);
     }
+  };
+
+  const changeStatusFunction = async (id: number, todoItem: ITodoItem) => {
+    try {
+      const todo = await TodoService.ChangeStatus(id, todoItem);
+      if (todo.status) {
+        toast.success(todo.message);
+        countTextFunction();
+      } else {
+        toast.error(todo.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const deleteFunction = async (id: number) => {
+    try {
+      const todo = await TodoService.Delete(id);
+      if (todo.status) {
+        toast.success(todo.message);
+        await getAllTodos();
+      } else {
+        toast.error(todo.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const countTextFunction = () => {
+    const trueCount = todoItems.filter((item) => item.status).length;
+    setCountText("( " + trueCount + " / " + todoItems.length + " )");
   };
 
   // Page load call getAllTodos
@@ -47,30 +87,49 @@ const App: FC = () => {
     getAllTodos();
   }, []);
 
+  useEffect(() => {
+    countTextFunction();
+  }, [todoItems]);
+
   return (
     <div className="content">
       <div className="head">
         <h1>All Tasks</h1>
-        <span>( 0 / 0 )</span>
+        <span>{countText}</span>
       </div>
 
-      <TaskInput onAdd={addFunction} />
+      <TaskInput loading={loader} onAdd={addFunction} />
 
-      <ul className="list">
-        {todoItems.map((item) => (
-          <ListItem
-            key={item.id}
-            item={item}
-            onStatusChange={() => {
-              console.log("status change");
-            }}
-            onDelete={() => {
-              console.log("delete");
-            }}
-          />
-        ))}
-      </ul>
+      {loader ? (
+        <span className="loader" />
+      ) : todoItems.length > 0 ? (
+        <ul className="list">
+          {todoItems.map((todoItem) => (
+            <ListItem
+              key={todoItem.id}
+              todoItem={todoItem}
+              onStatusChange={(status) => {
+                todoItem.status = status;
+                changeStatusFunction(todoItem.id, todoItem);
+              }}
+              onDelete={() => {
+                deleteFunction(todoItem.id);
+              }}
+            />
+          ))}
+        </ul>
+      ) : (
+        <div className="no-tasks">No Tasks</div>
+      )}
+
       <Toaster position="top-right" reverseOrder={false} />
+
+      <div className="signature">
+        Coded with ❤️ by{" "}
+        <a href="https://mustafaozturk.kim/tr" target="_blank">
+          Mustafa ÖZTÜRK
+        </a>
+      </div>
     </div>
   );
 };

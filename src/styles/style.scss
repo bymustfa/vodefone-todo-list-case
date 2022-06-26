@@ -31,6 +31,7 @@ body {
 
 .content {
   padding: 10px;
+  position: relative;
 
   @include mobile() {
     width: 90%;
@@ -76,21 +77,34 @@ body {
         transform: scale(1.01);
       }
 
-      label {
-
-        width: 100%;
-        display: flex;
-        align-items: center;
-        user-select: none;
-        cursor: pointer;
-
-        span{
-          margin-left: 12px;
-        }
-
-      }
     }
   }
 
+  .no-tasks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    font-size: 32px;
+    font-weight: bold;
+    color: $dark-primary;
+  }
+
+
+  .signature {
+    position: fixed;
+    right: 5px;
+    bottom: 10px;
+
+    a {
+      text-decoration: none;
+      color: $dark;
+      font-weight: bold;
+      &:hover {
+        color: $dark-primary;
+      }
+    }
+
+  }
 
 }
