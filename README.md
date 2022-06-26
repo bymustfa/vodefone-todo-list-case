@@ -18,6 +18,7 @@ Then to run the project:
 
 ___
 
+## Steps
 
 1. [x] Fake backend (JSON-Server)
 2. [x] React
@@ -26,3 +27,10 @@ ___
 5. [x] Custom components
 6. [x] Responsive design
 7. [x] Lazy loading
+
+
+___
+
+## Secreen Shots
+
+<img src="./TodoList.png" alt="screenshot" />
