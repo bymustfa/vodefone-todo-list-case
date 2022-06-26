@@ -1,24 +1,19 @@
 {
   "todos": [
     {
-      "text": "asadasd",
-      "status": false,
+      "text": "go for a run 🏃",
+      "status": true,
       "id": 1
     },
     {
-      "text": "sdsdsd",
+      "text": "Drink 1.5 liters of water 🌊",
       "status": false,
       "id": 2
     },
     {
-      "text": "last",
+      "text": "Read Sherlock Holmes 📚",
       "status": false,
       "id": 3
-    },
-    {
-      "text": "sdsdsd",
-      "status": false,
-      "id": 4
     }
   ]
 }
